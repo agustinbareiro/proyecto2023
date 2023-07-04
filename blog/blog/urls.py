@@ -20,6 +20,9 @@ from django.urls import path, include
 # from apps.noticias import views
 from . import views
 
+# url del login
+from django.contrib.auth import views as auth
+
 # URL PRINCIPAL
 urlpatterns = [
     # path('', views.inicio, name="inicio"),
@@ -32,5 +35,13 @@ urlpatterns = [
 
     # ---------- URL APP NOTICIA-----------
     path('noticia/', include('apps.noticias.urls')),
+
+    # LOGIN
+    # path('usuarios/login', views.login, name='login')
+    path('login/', auth.LoginView.as_view(template_name='usuarios/login.html'), name='login'),
+    # ultimo error de la clase solucionado
+    # path('logout/', auth.LoginView.as_view(), name='logout'),
+    # cambiar LoginView por LogoutView
+    path('logout/', auth.LogoutView.as_view(), name='logout'),
 
 ]
