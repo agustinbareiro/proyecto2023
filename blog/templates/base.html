@@ -22,6 +22,7 @@
         <a href="{% url 'logout' %}"> cerrar sesion</a>
         {% else %}
         <a href="{% url 'login' %}"> iniciar sesion</a>
+        <a href="{% url 'usuarios:registro' %}">Registrar</a>
 
         {% endif %}
     </div>

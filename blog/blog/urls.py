@@ -22,6 +22,9 @@ from . import views
 
 # url del login
 from django.contrib.auth import views as auth
+from django.conf.urls.static import static
+
+from django.conf import settings
 
 # URL PRINCIPAL
 urlpatterns = [
@@ -44,4 +47,6 @@ urlpatterns = [
     # cambiar LoginView por LogoutView
     path('logout/', auth.LogoutView.as_view(), name='logout'),
 
-]
+    # Registro
+    path('usuarios/', include('apps.usuarios.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
