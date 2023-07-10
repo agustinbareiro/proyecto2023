@@ -6,6 +6,13 @@ from .models import Noticia
 # def inicio(request):
 #     return HttpResponse("<h1>HOLA MUNDO</h1> <h2> desde django</h2>")
 
+# decorador para ver las noticias solamente como usuario logueado
+from django.contrib.auth.decorators import login_required
+
+# uso de decorador para verificar logeo de usuario y poder ver noticia
+
+
+@login_required
 def inicio(request):
 
     ctx = {}

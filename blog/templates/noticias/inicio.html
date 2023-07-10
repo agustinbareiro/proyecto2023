@@ -8,6 +8,7 @@
 <img src="https://th.bing.com/th/id/R.507b0209dc0abf55a2df4ce79b056c9b?rik=GlLqf3Y9UjLsyg&pid=ImgRaw&r=0" alt=""
     height="300px">
 
+
 {% for noticia in noticias %}
 <p>categoria: {{noticia.categoria_noticia}}</p>
 <h2>titulo:<a href="{% url 'noticias:inicio' %}"> <strong>{{ noticia.titulo }}</strong></a></h2>
@@ -15,4 +16,5 @@
 <p>{{noticia.fecha}}</p>
 <img src="{{ noticia.imagen.url }}" alt="">
 {% endfor %}
+
 {% endblock contenido%}

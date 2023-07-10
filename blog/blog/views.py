@@ -6,7 +6,11 @@ def home(request):
 
 
 def nosotros(request):
-    return render(request, 'nosotros.html')
+    return render(request, 'nosotros.html', {
+        "saludo": "Hola mundo",
+        "nombre": "Soy el contexto",
+        "autor": "Dani"
+    })
 
 
 # def login(request):
