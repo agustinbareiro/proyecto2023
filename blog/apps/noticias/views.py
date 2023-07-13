@@ -1,7 +1,8 @@
 from django.shortcuts import render, HttpResponse
-from .models import Noticia
+from .models import Noticia, Categoria, Contacto
 # Create your views here.
 
+from .forms import ContactoForm
 
 # def inicio(request):
 #     return HttpResponse("<h1>HOLA MUNDO</h1> <h2> desde django</h2>")
@@ -14,13 +15,48 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def inicio(request):
+    # obtener todas las noticias y mostrar en el inicio.html
+    # ctx = {}
+    # # clase.objetcs.all()==> select * from noticia
+    # noticia = Noticia.objects.all()
+    # ctx["noticias"] = noticia
+    # return render(request, 'noticias/inicio.html', ctx)
+    contexto = {}
+    id_categoria = request.GET.get('id', None)
 
-    ctx = {}
-    # clase.objetcs.all()==> select * from noticia
-    noticia = Noticia.objects.all()
-    ctx["noticias"] = noticia
-    return render(request, 'noticias/inicio.html', ctx)
+    if id_categoria:
+        n = Noticia.objects.filter(categoria_noticia=id_categoria)
+    else:
+        n = Noticia.objects.all()  # una lista
 
-# ClaseName.objects.all()              select * from noticias
+    contexto['noticias'] = n
+
+    cat = Categoria.objects.all().order_by('nombre')
+    contexto['categorias'] = cat
+
+    return render(request, 'noticias/inicio.html', contexto)
+
+
+@login_required
+def Detalle_Noticias(request, pk):
+    contexto = {}
+
+    n = Noticia.objects.get(pk=pk)
+    contexto['noticia'] = n
+
+    return render(request, 'noticias/detalle.html', contexto)
+
+
+# ClaseName.objects.all()[0:2]              select * from noticias
 # ClaseName.objects.get(pk = 1)        select * from noticias where id = 1
 # ClaseName.objects.filter(categoria)  select * from noticias where categoria = deportes
+
+
+def contacto(request):
+    data = {
+        'form': ContactoForm()
+    }
+    if request.method == 'POST':
+        ContactoForm(data=request.POST).save()
+
+    return render(request, 'contacto/formulario.html', data)
