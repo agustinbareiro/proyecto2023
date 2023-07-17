@@ -12,4 +12,19 @@
 <p>{{noticia.categoria_noticia}}</p>
 
 
+<form action="{% url 'noticias:comentar' %}" method="post">{% csrf_token %}
+
+    <textarea name="comentario" cols="30" rows="3"></textarea>
+    <input type="text" name="id_noticia" value="{{ noticia.pk }}" hidden="">
+    <input type="submit" value="comentar">
+
+</form>
+<h3>Comentarios</h3>
+{% for com in comentarios %}
+
+<p><strong>{{ com.usuario }}</strong> {{ com.fecha }}</p>
+<p> comentario: {{ com.texto }}</p>
+
+{% endfor %}
+
 {% endblock contenido%}

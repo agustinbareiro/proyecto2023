@@ -1,8 +1,11 @@
-from django.shortcuts import render, HttpResponse
-from .models import Noticia, Categoria, Contacto
+from django.shortcuts import render, HttpResponse, redirect
+from .models import Noticia, Categoria, Contacto, Comentario
 # Create your views here.
 
 from .forms import ContactoForm
+# importamos reverse lazy para los comentarios
+from django.urls import reverse_lazy
+
 
 # def inicio(request):
 #     return HttpResponse("<h1>HOLA MUNDO</h1> <h2> desde django</h2>")
@@ -44,6 +47,9 @@ def Detalle_Noticias(request, pk):
     n = Noticia.objects.get(pk=pk)
     contexto['noticia'] = n
 
+    c = Comentario.objects.filter(noticia=n)
+    contexto['comentarios'] = c
+
     return render(request, 'noticias/detalle.html', contexto)
 
 
@@ -60,3 +66,14 @@ def contacto(request):
         ContactoForm(data=request.POST).save()
 
     return render(request, 'contacto/formulario.html', data)
+
+
+@login_required
+def Comentar_Noticia(request):
+    comentario = request.POST.get('comentario', None)
+    user = request.user
+    noti = request.POST.get('id_noticia', None)
+    noticia = Noticia.objects.get(pk=noti)
+    coment = Comentario.objects.create(
+        usuario=user, noticia=noticia, texto=comentario)
+    return redirect(reverse_lazy('noticias:detalle', kwargs={"pk": noti}))

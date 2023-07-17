@@ -1,5 +1,5 @@
 from django.db import models
-
+from apps.usuarios.models import Usuario
 # Create your models here.
 
 
@@ -30,3 +30,13 @@ class Contacto(models.Model):
     def __str__(self) -> str:
         return self.nombre
 #
+
+
+class Comentario(models.Model):
+    texto = models.TextField(null=True)
+    fecha = models.DateTimeField(auto_now_add=True)
+    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f"{self.noticia} {self.texto}"
