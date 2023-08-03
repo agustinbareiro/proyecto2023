@@ -20,11 +20,18 @@
 
 </form>
 <h3>Comentarios</h3>
-{% for com in comentarios %}
+<!-- {% for com in comentarios %}
 
 <p><strong>{{ com.usuario }}</strong> {{ com.fecha }}</p>
 <p> comentario: {{ com.texto }}</p>
 
+{% endfor %} -->
+
+{% for c in noticia.MisComentarios %}
+<h4>{{c.texto}}</h4>
+<h4>{{c.usuario}}</h4>
+<a href="{% url 'noticias:borrar_comentario' c.pk %}" class="btn btn-info">borrar</a>
+<a href="{% url 'noticias:modificar_comentario' c.pk %}" class="btn btn-info">modificar</a>
 {% endfor %}
 
 {% endblock contenido%}

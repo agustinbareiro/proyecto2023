@@ -1,3 +1,5 @@
+from django.views.generic import DeleteView, UpdateView
+from .forms import Form_Mod
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Noticia, Categoria, Contacto, Comentario
 # Create your views here.
@@ -16,7 +18,6 @@ from django.contrib.auth.decorators import login_required
 # uso de decorador para verificar logeo de usuario y poder ver noticia
 
 
-@login_required
 def inicio(request):
     # obtener todas las noticias y mostrar en el inicio.html
     # ctx = {}
@@ -40,7 +41,6 @@ def inicio(request):
     return render(request, 'noticias/inicio.html', contexto)
 
 
-@login_required
 def Detalle_Noticias(request, pk):
     contexto = {}
 
@@ -77,3 +77,18 @@ def Comentar_Noticia(request):
     coment = Comentario.objects.create(
         usuario=user, noticia=noticia, texto=comentario)
     return redirect(reverse_lazy('noticias:detalle', kwargs={"pk": noti}))
+
+# modificar-eliminar comentarios
+
+
+class BorrarComentario(DeleteView):
+    model = Comentario
+    template_name = "comentarios/comentario_confirm_delete.html"
+    success_url = reverse_lazy("noticias:inicio")
+
+
+class ModificaComentario(UpdateView):
+    model = Comentario
+    form_class = Form_Mod
+    template_name = "comentarios/modificar.html"
+    success_url = reverse_lazy("noticias:inicio")

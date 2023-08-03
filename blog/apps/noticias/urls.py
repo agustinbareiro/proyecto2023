@@ -15,6 +15,13 @@ urlpatterns = [
     path('contacto', views.contacto, name="contacto"),
 
     # URL COMENTARIO
-    path('comentario', views.Comentar_Noticia, name='comentar')
+    path('comentario', views.Comentar_Noticia, name='comentar'),
+
+    # eliminar comentario
+    path('Borrar/<int:pk>', views.BorrarComentario.as_view(),
+         name="borrar_comentario"),
+    # modificar comentario
+    path("Modificar/<int:pk>", views.ModificaComentario.as_view(),
+         name="modificar_comentario")
 
 ]
